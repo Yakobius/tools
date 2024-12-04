@@ -92,18 +92,18 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#home">Home</a>
         <div class="dropdown">
             <button class="dropbtn">Conversions</button>
             <div class="dropdown-content">
-                <a href="#" onclick="showSection('median-iqr')">Median & IQR to Mean & SD</a>
+                <a href="#median-iqr">Median & IQR to Mean & SD</a>
             </div>
         </div>
         <a href="#about">About</a>
     </div>
 
     <!-- Home Section -->
-    <div id="home" class="container section active">
+    <div id="home" class="container section">
         <h1>Hello, this is the website by Ninib Yakoub</h1>
         <p>Welcome to my website! Use the navigation bar to explore.</p>
     </div>
@@ -148,6 +148,12 @@
         <p id="output"></p>
     </div>
 
+    <!-- About Section -->
+    <div id="about" class="container section">
+        <h1>About</h1>
+        <p>This website is created by Ninib Yakoub to provide useful tools and resources.</p>
+    </div>
+
     <script>
         function showSection(sectionId) {
             // Hide all sections
@@ -160,6 +166,18 @@
                 selectedSection.classList.add('active');
             }
         }
+
+        // Add event listener for hash changes
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1);
+            showSection(hash);
+        });
+
+        // Show correct section on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const hash = window.location.hash.substring(1) || 'home';
+            showSection(hash);
+        });
 
         function calculate() {
             const median1 = parseFloat(document.getElementById('median1').value);
@@ -187,11 +205,6 @@
                 <b>Combined:</b> Mean = ${combinedMean.toFixed(2)}, SD = ${combinedSD.toFixed(2)}
             `;
         }
-
-        // Show the home section by default on page load
-        document.addEventListener("DOMContentLoaded", () => {
-            showSection('home');
-        });
     </script>
 </body>
 </html>
