@@ -165,6 +165,9 @@
             if (selectedSection) {
                 selectedSection.classList.add('active');
             }
+
+            // Update URL hash
+            window.history.pushState(null, '', `#${sectionId}`);
         }
 
         // Add event listener for hash changes
