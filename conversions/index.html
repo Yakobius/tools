@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Website by Ninib Yakoub</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Conversions</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <div id="nav-placeholder"></div>
     <div class="container">
-        <h1>Hello, this is the website by Ninib Yakoub</h1>
-        <p>Welcome to my website! Use the navigation bar to explore.</p>
+        <h1>Conversion Tools</h1>
+        <ul id="conversion-list"></ul>
     </div>
+
     <script>
-        fetch('nav.html')
+        fetch('../nav.html')
           .then(response => response.text())
           .then(data => {
               document.getElementById('nav-placeholder').innerHTML = data;
-              populateConversions();
+              populateConversionsList();
           });
 
-        function populateConversions() {
-            fetch('conversions/tools.json')
+        function populateConversionsList() {
+            fetch('tools.json')
               .then(response => response.json())
               .then(tools => {
-                  const container = document.getElementById('conversion-links');
-                  container.innerHTML = '';
+                  const list = document.getElementById('conversion-list');
+                  list.innerHTML = '';
                   tools.forEach(tool => {
+                      const li = document.createElement('li');
                       const link = document.createElement('a');
-                      link.href = 'conversions/' + tool.file;
+                      link.href = tool.file;
                       link.textContent = tool.title;
-                      container.appendChild(link);
+                      li.appendChild(link);
+                      list.appendChild(li);
                   });
               });
         }
