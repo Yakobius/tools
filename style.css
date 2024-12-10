@@ -23,17 +23,17 @@ body {
     color: black;
 }
 .dropdown {
-    float: left;
-    overflow: visible; /* ensure dropdown is visible */
-    position: relative; /* position relative so dropdown content can position absolutely below */
+    position: relative;
+    display: inline-block;
 }
 .dropbtn {
-    /* Optional styling for the main conversions link if needed */
+    display: inline-block;
+    padding: 14px 16px;
 }
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%;  /* position below the button */
+    top: 110%; /* Slightly more than 100% to ensure it appears below */
     left: 0;
     background-color: #f9f9f9;
     min-width: 160px;
@@ -60,7 +60,6 @@ body {
     margin: 20px auto;
     padding: 20px;
 }
-
 .input-group {
     margin-bottom: 10px;
     display: flex;
