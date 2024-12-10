@@ -24,15 +24,16 @@ body {
 }
 .dropdown {
     float: left;
-    overflow: hidden;
-    position: relative;
+    overflow: visible; /* ensure dropdown is visible */
+    position: relative; /* position relative so dropdown content can position absolutely below */
 }
 .dropbtn {
-    /* Dropbtn styling if needed; not strictly required as .dropbtn is just a class on an <a> */
+    /* Optional styling for the main conversions link if needed */
 }
 .dropdown-content {
     display: none;
     position: absolute;
+    top: 100%;  /* position below the button */
     left: 0;
     background-color: #f9f9f9;
     min-width: 160px;
@@ -53,8 +54,22 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 .container {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
+}
+
+.input-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.input-group label {
+    margin-bottom: 5px;
+}
+.input-group input {
+    width: 100%;
+    padding: 5px;
 }
