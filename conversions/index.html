@@ -14,32 +14,30 @@
     </div>
 
     <script>
-        // Load navbar
-        fetch('../nav.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('nav-placeholder').innerHTML = data;
-                // After nav is loaded, populate conversions
-                populateConversionsList();
-            });
+      // Load navbar
+      fetch('../nav.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('nav-placeholder').innerHTML = data;
+            populateConversionsList();
+        });
 
-        function populateConversionsList() {
-            fetch('tools.json')
-                .then(response => response.json())
-                .then(tools => {
-                    const list = document.getElementById('conversion-list');
-                    list.innerHTML = '';
-                    tools.forEach(tool => {
-                        const li = document.createElement('li');
-                        const link = document.createElement('a');
-                        link.href = tool.file;
-                        link.textContent = tool.title;
-                        li.appendChild(link);
-                        list.appendChild(li);
-                    });
-                });
-        }
+      function populateConversionsList() {
+        fetch('tools.json')
+          .then(response => response.json())
+          .then(tools => {
+            const list = document.getElementById('conversion-list');
+            list.innerHTML = '';
+            tools.forEach(tool => {
+              const li = document.createElement('li');
+              const link = document.createElement('a');
+              link.href = tool.file;
+              link.textContent = tool.title;
+              li.appendChild(link);
+              list.appendChild(li);
+            });
+          });
+      }
     </script>
 </body>
 </html>
-
