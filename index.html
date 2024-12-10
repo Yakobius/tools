@@ -13,7 +13,6 @@
         <p>Welcome to my website! Use the navigation bar to explore.</p>
     </div>
     <script>
-        // Load navbar
         fetch('nav.html')
           .then(response => response.text())
           .then(data => {
@@ -29,7 +28,7 @@
                   container.innerHTML = '';
                   tools.forEach(tool => {
                       const link = document.createElement('a');
-                      link.href = 'conversions/' + tool.file; 
+                      link.href = 'conversions/' + tool.file;
                       link.textContent = tool.title;
                       container.appendChild(link);
                   });
