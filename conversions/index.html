@@ -18,8 +18,24 @@
           .then(response => response.text())
           .then(data => {
               document.getElementById('nav-placeholder').innerHTML = data;
+              populateConversionsDropdown();
               populateConversionsList();
           });
+
+        function populateConversionsDropdown() {
+            fetch('tools.json')
+              .then(response => response.json())
+              .then(tools => {
+                  const container = document.getElementById('conversion-links');
+                  container.innerHTML = '';
+                  tools.forEach(tool => {
+                      const link = document.createElement('a');
+                      link.href = tool.file;
+                      link.textContent = tool.title;
+                      container.appendChild(link);
+                  });
+              });
+        }
 
         function populateConversionsList() {
             fetch('tools.json')
