@@ -27,16 +27,8 @@ body {
     overflow: hidden;
     position: relative;
 }
-.dropdown .dropbtn {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-    cursor: pointer;
+.dropbtn {
+    /* Dropbtn styling if needed; not strictly required as .dropbtn is just a class on an <a> */
 }
 .dropdown-content {
     display: none;
