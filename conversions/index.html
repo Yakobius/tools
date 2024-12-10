@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Conversions</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>Website by Ninib Yakoub</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="nav-placeholder"></div>
     <div class="container">
-        <h1>Conversion Tools</h1>
-        <ul id="conversion-list"></ul>
+        <h1>Hello, this is the website by Ninib Yakoub</h1>
+        <p>Welcome to my website! Use the navigation bar to explore.</p>
     </div>
-
     <script>
-        // Load navbar
-        fetch('../nav.html')
+        fetch('nav.html')
           .then(response => response.text())
           .then(data => {
               document.getElementById('nav-placeholder').innerHTML = data;
-              populateConversionsList();
+              populateConversions();
           });
 
-        function populateConversionsList() {
-            fetch('tools.json')
+        function populateConversions() {
+            fetch('conversions/tools.json')
               .then(response => response.json())
               .then(tools => {
-                  const list = document.getElementById('conversion-list');
-                  list.innerHTML = '';
+                  const container = document.getElementById('conversion-links');
+                  container.innerHTML = '';
                   tools.forEach(tool => {
-                      const li = document.createElement('li');
                       const link = document.createElement('a');
-                      link.href = tool.file;
+                      link.href = 'conversions/' + tool.file;
                       link.textContent = tool.title;
-                      li.appendChild(link);
-                      list.appendChild(li);
+                      container.appendChild(link);
                   });
               });
         }
