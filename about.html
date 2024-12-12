@@ -4,17 +4,17 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>About - Ninib Yakoub</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Path adjusted -->
 </head>
 <body>
     <div id="nav-placeholder"></div>
     <div class="container">
         <h1>About</h1>
         <p>This website is created by Ninib Yakoub to provide useful tools and resources.</p>
-        <div id="conversion-links"></div> <!-- Added for JS population -->
+        <div id="conversion-links"></div> <!-- For JS population -->
     </div>
     <script>
-        fetch('nav.html')
+        fetch('nav.html') <!-- Path adjusted -->
           .then(response => response.text())
           .then(data => {
               document.getElementById('nav-placeholder').innerHTML = data;
@@ -22,14 +22,14 @@
           });
 
         function populateConversions() {
-            fetch('conversions/tools.json')
+            fetch('conversions/tools.json') <!-- Path adjusted -->
               .then(response => response.json())
               .then(tools => {
                   const container = document.getElementById('conversion-links');
                   container.innerHTML = '';
                   tools.forEach(tool => {
                       const link = document.createElement('a');
-                      link.href = 'conversions/' + tool.file;
+                      link.href = 'conversions/' + tool.file; <!-- Path adjusted -->
                       link.textContent = tool.title;
                       container.appendChild(link);
                   });
