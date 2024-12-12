@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversion Tools - Ninib Yakoub</title>
-    <link rel="stylesheet" href="/tools/style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <div id="nav-placeholder"></div>
@@ -14,17 +14,22 @@
         <ul id="tool-list"></ul>
     </div>
 
-    <script src="/tools/nav.js"></script>
     <script>
+        fetch('../nav.html')
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById('nav-placeholder').innerHTML = data;
+          });
+
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('/tools/conversions/tools.json')
+            fetch('tools.json')
                 .then(response => response.json())
                 .then(tools => {
                     const toolList = document.getElementById('tool-list');
                     tools.forEach(tool => {
                         const listItem = document.createElement('li');
                         const link = document.createElement('a');
-                        link.href = `/tools/conversions/${tool.file}`;
+                        link.href = tool.file; /* Relative path */
                         link.textContent = tool.title;
                         listItem.appendChild(link);
                         toolList.appendChild(listItem);
