@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website by Ninib Yakoub</title>
-    <link rel="stylesheet" href="style.css"> <!-- Path adjusted -->
+    <link rel="stylesheet" href="/tools/style.css">
 </head>
 <body>
     <div id="nav-placeholder"></div>
     <div class="container">
         <h1>Hello, this is the website by Ninib Yakoub</h1>
         <p>Welcome to my website! Use the navigation bar to explore.</p>
-        <div id="conversion-links"></div> <!-- For JS population -->
+        <div id="conversion-links"></div>
     </div>
     <script>
-        fetch('nav.html') <!-- Path adjusted -->
+        fetch('/tools/nav.html')
           .then(response => response.text())
           .then(data => {
               document.getElementById('nav-placeholder').innerHTML = data;
@@ -22,14 +22,14 @@
           });
 
         function populateConversions() {
-            fetch('conversions/tools.json') <!-- Path adjusted -->
+            fetch('/tools/conversions/tools.json')
               .then(response => response.json())
               .then(tools => {
                   const container = document.getElementById('conversion-links');
                   container.innerHTML = '';
                   tools.forEach(tool => {
                       const link = document.createElement('a');
-                      link.href = 'conversions/' + tool.file; <!-- Path adjusted -->
+                      link.href = '/tools/conversions/' + tool.file;
                       link.textContent = tool.title;
                       container.appendChild(link);
                   });
