@@ -6,5 +6,9 @@
     {
         "title": "Median (Range) to Mean (SD)",
         "file": "median-range.html"
+    },
+    {
+        "title": "Median (Range) to Mean (SD)",
+        "file": "median-range-max-min.html"
     }
 ]
