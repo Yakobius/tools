@@ -13,12 +13,14 @@
     <div id="nav-placeholder"></div> <!-- Placeholder for the navigation menu -->
     <div class="container">
         <h1>Median (IQR) Mean to (SD) Converter</h1>
-        <p>
-            This tool uses the following formulas for approximating means and standard deviations (SDs) from medians and interquartile ranges (IQRs):
-        </p>
-        <p>
-            <b>Convert Medians and IQRs to Means and SDs:</b>
-        </p>
+        <p>This tool uses formulas from Wan et al. (2014) and Hozo et al. (2005) for approximating means and standard deviations (SDs) from medians and interquartile ranges (IQRs).</p>
+        <br><br>
+        <strong>References:</strong>
+        <ul>
+            <li>Wan, X., Wang, W., Liu, J., & Tong, T. (2014). Estimating the sample mean and standard deviation from the sample size, median, range and/or interquartile range. <i>BMC Medical Research Methodology</i>, 14(1), 135. <a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135" target="_blank">Read more</a></li>
+            <li>Hozo, S. P., Djulbegovic, B., & Hozo, I. (2005). Estimating the mean and variance from the median, range, and the size of a sample. <i>BMC Medical Research Methodology</i>, 5(1), 13. <a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-5-13" target="_blank">Read more</a></li>
+        </ul>
+
         <ul>
             <li>Mean: \( \text{Mean} = \frac{Q_1 + Q_3 + \text{Median}}{3} \)</li>
             <li>SD: \( \text{SD} = \frac{Q_3 - Q_1}{1.35} \)</li>
