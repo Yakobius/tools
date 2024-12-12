@@ -1,48 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Median to Mean & SD Converter</title>
-    <link rel="stylesheet" href="../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Median & IQR to Mean & SD Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <!-- Load MathJax for rendering math -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        // Example: Dynamically load the navigation bar content
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("nav-placeholder").innerHTML = `
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="converter.html">Converter</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </nav>
+            `;
+        });
+    </script>
 </head>
 <body>
-    <div id="nav-placeholder"></div>
-
+    <div id="nav-placeholder"></div> <!-- Placeholder for the navigation bar -->
     <div class="container">
         <h1>Median to Mean & SD Converter</h1>
-        <p>This tool uses formulas from Wan et al. (2014) and Hozo et al. (2005) for approximating means and standard deviations (SDs) from medians and interquartile ranges (IQRs).</p>
-        <div class="input-group">
-            <label for="median1">Median 1:</label>
-            <input type="number" id="median1" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="iqr1">IQR 1:</label>
-            <input type="number" id="iqr1" step="0.01">
-        </div>
+        <p>
+            This tool uses the following formulas for approximating means and standard deviations (SDs) from medians and interquartile ranges (IQRs):
+        </p>
+        <p>
+            <b>Convert Medians and IQRs to Means and SDs:</b>
+        </p>
+        <ul>
+            <li>Mean: \( \text{Mean} = \frac{Q_1 + Q_3 + \text{Median}}{3} \)</li>
+            <li>SD: \( \text{SD} = \frac{Q_3 - Q_1}{1.35} \)</li>
+        </ul>
+        <p>
+            <b>Combine Means and SDs Using a Weighted Average:</b>
+        </p>
+        <ul>
+            <li>
+                Combined Mean: 
+                \[
+                \text{Combined Mean} = \frac{n_1 \cdot \text{Mean}_1 + n_2 \cdot \text{Mean}_2}{n_1 + n_2}
+                \]
+            </li>
+            <li>
+                Combined SD:
+                \[
+                \text{Combined SD} = \sqrt{\frac{(n_1 - 1) \cdot \text{SD}_1^2 + (n_2 - 1) \cdot \text{SD}_2^2}{n_1 + n_2 - 2}}
+                \]
+            </li>
+        </ul>
+        <label for="median1">Median 1:</label>
+        <input type="number" id="median1" step="0.01">
+        <label for="iqr1">IQR 1:</label>
+        <input type="number" id="iqr1" step="0.01">
+        <label for="n1">Group Size 1:</label>
+        <input type="number" id="n1" step="1">
+        <label for="median2">Median 2:</label>
+        <input type="number" id="median2" step="0.01">
+        <label for="iqr2">IQR 2:</label>
+        <input type="number" id="iqr2" step="0.01">
+        <label for="n2">Group Size 2:</label>
+        <input type="number" id="n2" step="1">
         <button onclick="calculate()">Calculate</button>
         <h2>Results</h2>
         <p id="output"></p>
     </div>
 
     <script>
-        fetch('../nav.html')
-          .then(response => response.text())
-          .then(data => {
-              document.getElementById('nav-placeholder').innerHTML = data;
-          });
-
         function calculate() {
             const median1 = parseFloat(document.getElementById('median1').value);
             const iqr1 = parseFloat(document.getElementById('iqr1').value);
-
-            const q1 = median1 - 0.5 * iqr1;
-            const q3 = median1 + 0.5 * iqr1;
-            const mean = (q1 + q3 + median1) / 3;
-            const sd = (q3 - q1) / 1.35;
-
+            const n1 = parseInt(document.getElementById('n1').value);
+            const median2 = parseFloat(document.getElementById('median2').value);
+            const iqr2 = parseFloat(document.getElementById('iqr2').value);
+            const n2 = parseInt(document.getElementById('n2').value);
+            const q1_1 = median1 - 0.5 * iqr1;
+            const q3_1 = median1 + 0.5 * iqr1;
+            const mean1 = (q1_1 + q3_1 + median1) / 3;
+            const sd1 = (q3_1 - q1_1) / 1.35;
+            const q1_2 = median2 - 0.5 * iqr2;
+            const q3_2 = median2 + 0.5 * iqr2;
+            const mean2 = (q1_2 + q3_2 + median2) / 3;
+            const sd2 = (q3_2 - q1_2) / 1.35;
+            const combinedMean = (n1 * mean1 + n2 * mean2) / (n1 + n2);
+            const combinedSD = Math.sqrt(
+                ((n1 - 1) * Math.pow(sd1, 2) + (n2 - 1) * Math.pow(sd2, 2)) /
+                (n1 + n2 - 2)
+            );
             document.getElementById('output').innerHTML = `
-                <b>Mean = ${mean.toFixed(2)}, SD = ${sd.toFixed(2)}
+                <b>Group 1:</b> Mean = ${mean1.toFixed(2)}, SD = ${sd1.toFixed(2)}<br>
+                <b>Group 2:</b> Mean = ${mean2.toFixed(2)}, SD = ${sd2.toFixed(2)}<br>
+                <b>Combined:</b> Mean = ${combinedMean.toFixed(2)}, SD = ${combinedSD.toFixed(2)}
             `;
         }
     </script>
