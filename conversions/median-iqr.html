@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Median to Mean & SD Converter</title>
-    <link rel="stylesheet" href="/tools/style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <div id="nav-placeholder"></div>
@@ -12,13 +12,6 @@
     <div class="container">
         <h1>Median to Mean & SD Converter</h1>
         <p>This tool uses formulas from Wan et al. (2014) and Hozo et al. (2005) for approximating means and standard deviations (SDs) from medians and interquartile ranges (IQRs).</p>
-        <br><br>
-        <strong>References:</strong>
-        <ul>
-            <li>Wan, X., Wang, W., Liu, J., & Tong, T. (2014). Estimating the sample mean and standard deviation from the sample size, median, range and/or interquartile range. <i>BMC Medical Research Methodology</i>, 14(1), 135. <a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135" target="_blank">Read more</a></li>
-            <li>Hozo, S. P., Djulbegovic, B., & Hozo, I. (2005). Estimating the mean and variance from the median, range, and the size of a sample. <i>BMC Medical Research Methodology</i>, 5(1), 13. <a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-5-13" target="_blank">Read more</a></li>
-        </ul>
-
         <div class="input-group">
             <label for="median1">Median 1:</label>
             <input type="number" id="median1" step="0.01">
@@ -27,78 +20,29 @@
             <label for="iqr1">IQR 1:</label>
             <input type="number" id="iqr1" step="0.01">
         </div>
-        <div class="input-group">
-            <label for="n1">Group Size 1:</label>
-            <input type="number" id="n1" step="1">
-        </div>
-        <div class="input-group">
-            <label for="median2">Median 2:</label>
-            <input type="number" id="median2" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="iqr2">IQR 2:</label>
-            <input type="number" id="iqr2" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="n2">Group Size 2:</label>
-            <input type="number" id="n2" step="1">
-        </div>
         <button onclick="calculate()">Calculate</button>
         <h2>Results</h2>
         <p id="output"></p>
     </div>
 
     <script>
-        fetch('/tools/nav.html')
+        fetch('../nav.html')
           .then(response => response.text())
           .then(data => {
               document.getElementById('nav-placeholder').innerHTML = data;
-              populateConversions();
           });
-
-        function populateConversions() {
-            fetch('/tools/conversions/tools.json')
-              .then(response => response.json())
-              .then(tools => {
-                  const container = document.getElementById('conversion-links');
-                  container.innerHTML = '';
-                  tools.forEach(tool => {
-                      const link = document.createElement('a');
-                      link.href = tool.file;
-                      link.textContent = tool.title;
-                      container.appendChild(link);
-                  });
-              });
-        }
 
         function calculate() {
             const median1 = parseFloat(document.getElementById('median1').value);
             const iqr1 = parseFloat(document.getElementById('iqr1').value);
-            const n1 = parseInt(document.getElementById('n1').value);
-            const median2 = parseFloat(document.getElementById('median2').value);
-            const iqr2 = parseFloat(document.getElementById('iqr2').value);
-            const n2 = parseInt(document.getElementById('n2').value);
 
-            const q1_1 = median1 - 0.5 * iqr1;
-            const q3_1 = median1 + 0.5 * iqr1;
-            const mean1 = (q1_1 + q3_1 + median1) / 3;
-            const sd1 = (q3_1 - q1_1) / 1.35;
-
-            const q1_2 = median2 - 0.5 * iqr2;
-            const q3_2 = median2 + 0.5 * iqr2;
-            const mean2 = (q1_2 + q3_2 + median2) / 3;
-            const sd2 = (q3_2 - q1_2) / 1.35;
-
-            const combinedMean = (n1 * mean1 + n2 * mean2) / (n1 + n2);
-            const combinedSD = Math.sqrt(
-                ((n1 - 1)*Math.pow(sd1, 2) + (n2 - 1)*Math.pow(sd2, 2)) /
-                (n1 + n2 - 2)
-            );
+            const q1 = median1 - 0.5 * iqr1;
+            const q3 = median1 + 0.5 * iqr1;
+            const mean = (q1 + q3 + median1) / 3;
+            const sd = (q3 - q1) / 1.35;
 
             document.getElementById('output').innerHTML = `
-                <b>Group 1:</b> Mean = ${mean1.toFixed(2)}, SD = ${sd1.toFixed(2)}<br>
-                <b>Group 2:</b> Mean = ${mean2.toFixed(2)}, SD = ${sd2.toFixed(2)}<br>
-                <b>Combined:</b> Mean = ${combinedMean.toFixed(2)}, SD = ${combinedSD.toFixed(2)}
+                <b>Mean = ${mean.toFixed(2)}, SD = ${sd.toFixed(2)}
             `;
         }
     </script>
