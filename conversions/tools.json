@@ -1,10 +1,10 @@
 [
     {
-        "title": "Median & IQR to Mean & SD",
+        "title": "Median (IQR) to Mean (SD)",
         "file": "median-iqr.html"
     },
     {
-        "title": "Median + Range to Mean & SD",
+        "title": "Median (Range) to Mean (SD)",
         "file": "median-range.html"
     }
 ]
