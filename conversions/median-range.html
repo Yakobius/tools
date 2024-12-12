@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,11 +45,15 @@
         <ul>
             <li>Mean: \( \text{Mean} = \frac{\text{Min} + 2 \cdot \text{Median} + \text{Max}}{4} \)</li>
             <li>SD (when \( n \geq 25 \)): \( \text{SD} = \frac{\text{Max} - \text{Min}}{\sqrt{n}} \)</li>
-            <li>SD (when \( n < 25 \)): Adjusted using a constant \( k_n \) based on \( n \):</li>
+            <li>SD (when \( n < 25 \)): Adjusted using a constant \( k_n \):</li>
             <ul>
-                <li>For \( n \leq 10 \): \( k_n = 2.5 \)</li>
-                <li>For \( 10 < n \leq 15 \): \( k_n = 3.0 \)</li>
-                <li>For \( 15 < n < 25 \): \( k_n = 3.5 \)</li>
+                <li>Formula: \( \text{SD} = \frac{\text{Max} - \text{Min}}{k_n} \)</li>
+                <li>Constants for \( k_n \):</li>
+                <ul>
+                    <li>For \( n \leq 10 \): \( k_n = 2.5 \)</li>
+                    <li>For \( 10 < n \leq 15 \): \( k_n = 3.0 \)</li>
+                    <li>For \( 15 < n < 25 \): \( k_n = 3.5 \)</li>
+                </ul>
             </ul>
             <li>Combined SD uses the pooled SD formula:</li>
             \[
@@ -115,10 +118,10 @@
             // Output results
             document.getElementById('output').innerHTML = `
                 <b>Group 1:</b> Mean = ${mean1.toFixed(2)}, SD = ${sd1.toFixed(2)} ${
-                n1 < 25 ? `(adjusted for small n)` : `(standard calculation)`
+                n1 < 25 ? `(adjusted for small n with k_n = ${kn1})` : `(standard calculation)`
             }<br>
                 <b>Group 2:</b> Mean = ${mean2.toFixed(2)}, SD = ${sd2.toFixed(2)} ${
-                n2 < 25 ? `(adjusted for small n)` : `(standard calculation)`
+                n2 < 25 ? `(adjusted for small n with k_n = ${kn2})` : `(standard calculation)`
             }<br>
                 <b>Combined:</b> Mean = ${combinedMean.toFixed(2)}, SD = ${combinedSD.toFixed(2)}
             `;
