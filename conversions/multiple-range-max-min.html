@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Multiple Groups Median & Range (Max-Min) to Mean (SD) Converter</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <!-- Load MathJax for rendering math -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <h1>Multiple Groups Median Range (Max-Min) to Mean (SD) Converter</h1>
+        <p>
+            This tool uses the formulas from Wan et al. (2014) to approximate the mean and standard deviation (SD) from the sample size, median, and range (min and max):
+        </p>
+        <ul>
+            <li>Mean: \( \text{Mean} = \frac{\text{Min} + 2 \cdot \text{Median} + \text{Max}}{4} \)</li>
+            <li>SD (when \( n \geq 25 \)): \( \text{SD} = \frac{\text{Max} - \text{Min}}{\sqrt{n}} \)</li>
+            <li>SD (when \( n < 25 \)): Adjusted using a constant \( k_n \):</li>
+            <ul>
+                <li>Formula: \( \text{SD} = \frac{\text{Max} - \text{Min}}{k_n} \)</li>
+                <li>Constants for \( k_n \):</li>
+                <ul>
+                    <li>For \( n \leq 10 \): \( k_n = 2.5 \)</li>
+                    <li>For \( 10 < n \leq 15 \): \( k_n = 3.0 \)</li>
+                    <li>For \( 15 < n < 25 \): \( k_n = 3.5 \)</li>
+                </ul>
+            </ul>
+            <li>Combined SD uses the pooled SD formula (extended for multiple groups):</li>
+            \[
+            \text{Combined SD} = \sqrt{\frac{\sum_{i=1}^k (n_i - 1) \cdot \text{SD}_i^2}{\sum_{i=1}^k n_i - k}}
+            \]
+        </ul>
+        
+        <!-- Group 1 -->
+        <label for="median1">Median Group 1:</label>
+        <input type="number" id="median1" step="0.01">
+        <label for="min1">Min Group 1:</label>
+        <input type="number" id="min1" step="0.01">
+        <label for="max1">Max Group 1:</label>
+        <input type="number" id="max1" step="0.01">
+        <label for="n1">Group Size 1:</label>
+        <input type="number" id="n1" step="1">
+
+        <!-- Group 2 -->
+        <label for="median2">Median Group 2:</label>
+        <input type="number" id="median2" step="0.01">
+        <label for="min2">Min Group 2:</label>
+        <input type="number" id="min2" step="0.01">
+        <label for="max2">Max Group 2:</label>
+        <input type="number" id="max2" step="0.01">
+        <label for="n2">Group Size 2:</label>
+        <input type="number" id="n2" step="1">
+
+        <!-- Group 3 (optional) -->
+        <label for="median3">Median Group 3 (optional):</label>
+        <input type="number" id="median3" step="0.01">
+        <label for="min3">Min Group 3 (optional):</label>
+        <input type="number" id="min3" step="0.01">
+        <label for="max3">Max Group 3 (optional):</label>
+        <input type="number" id="max3" step="0.01">
+        <label for="n3">Group Size 3 (optional):</label>
+        <input type="number" id="n3" step="1">
+
+        <!-- Group 4 (optional) -->
+        <label for="median4">Median Group 4 (optional):</label>
+        <input type="number" id="median4" step="0.01">
+        <label for="min4">Min Group 4 (optional):</label>
+        <input type="number" id="min4" step="0.01">
+        <label for="max4">Max Group 4 (optional):</label>
+        <input type="number" id="max4" step="0.01">
+        <label for="n4">Group Size 4 (optional):</label>
+        <input type="number" id="n4" step="1">
+
+        <button onclick="calculate()">Calculate</button>
+        <h2>Results</h2>
+        <p id="output"></p>
+    </div>
+
+    <script>
+        fetch('../nav.html')
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById('nav-placeholder').innerHTML = data;
+          });
+
+        function calculate() {
+            // Helper to determine k_n for small n
+            function getKn(n) {
+                if (n < 10) return 2.5;
+                if (n <= 15) return 3.0;
+                // n < 25
+                return 3.5;
+            }
+
+            // Collect up to 4 groups' inputs
+            const groupInputs = [
+                {
+                    median: parseFloat(document.getElementById('median1').value),
+                    min: parseFloat(document.getElementById('min1').value),
+                    max: parseFloat(document.getElementById('max1').value),
+                    n: parseInt(document.getElementById('n1').value)
+                },
+                {
+                    median: parseFloat(document.getElementById('median2').value),
+                    min: parseFloat(document.getElementById('min2').value),
+                    max: parseFloat(document.getElementById('max2').value),
+                    n: parseInt(document.getElementById('n2').value)
+                },
+                {
+                    median: parseFloat(document.getElementById('median3').value),
+                    min: parseFloat(document.getElementById('min3').value),
+                    max: parseFloat(document.getElementById('max3').value),
+                    n: parseInt(document.getElementById('n3').value)
+                },
+                {
+                    median: parseFloat(document.getElementById('median4').value),
+                    min: parseFloat(document.getElementById('min4').value),
+                    max: parseFloat(document.getElementById('max4').value),
+                    n: parseInt(document.getElementById('n4').value)
+                }
+            ];
+
+            // Filter out invalid groups (NaN or zero n)
+            const validGroups = groupInputs.filter(g => {
+                return (
+                    !isNaN(g.median) &&
+                    !isNaN(g.min) &&
+                    !isNaN(g.max) &&
+                    !isNaN(g.n) &&
+                    g.n > 0
+                );
+            });
+
+            if (validGroups.length === 0) {
+                document.getElementById('output').innerHTML =
+                    'Please enter at least one valid group (median, min, max, and n).';
+                return;
+            }
+
+            // Calculate mean & SD for each valid group
+            validGroups.forEach(group => {
+                // Mean = (Min + 2*Median + Max) / 4
+                group.mean = (group.min + 2 * group.median + group.max) / 4;
+
+                // Determine SD
+                const difference = group.max - group.min;
+                if (group.n >= 25) {
+                    group.sd = difference / Math.sqrt(group.n);
+                    group.kn = 'standard calculation';
+                } else {
+                    const k = getKn(group.n);
+                    group.sd = difference / k;
+                    group.kn = `adjusted for small n with k_n = ${k}`;
+                }
+            });
+
+            // Compute combined mean
+            const totalN = validGroups.reduce((sum, g) => sum + g.n, 0);
+            const combinedMean = validGroups.reduce(
+                (sum, g) => sum + g.n * g.mean, 0
+            ) / totalN;
+
+            // Compute pooled SD
+            // Formula: sqrt( sum((n_i - 1)*sd_i^2) / (sum(n_i) - k) )
+            const numerator = validGroups.reduce((sum, g) => {
+                return sum + (g.n - 1) * Math.pow(g.sd, 2);
+            }, 0);
+            const denominator = totalN - validGroups.length;
+            const combinedSD = validGroups.length > 1
+                ? Math.sqrt(numerator / denominator)
+                : validGroups[0].sd; // If only 1 group, use that group's SD
+
+            // Construct output
+            let outputText = '';
+            validGroups.forEach((group, idx) => {
+                outputText += `<b>Group ${idx + 1}:</b> `
+                    + `Mean = ${group.mean.toFixed(2)}, `
+                    + `SD = ${group.sd.toFixed(2)} `
+                    + `(${group.kn})<br>`;
+            });
+
+            outputText += `<b>Combined:</b> Mean = ${combinedMean.toFixed(2)}, SD = ${combinedSD.toFixed(2)}`;
+            document.getElementById('output').innerHTML = outputText;
+        }
+    </script>
+</body>
+</html>
