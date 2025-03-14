@@ -24,23 +24,5 @@
  {
         "title": "Multiple Groups Median (Range, Max-Min) to Mean (SD)",
         "file": "multiple-range-max-min.html"
-    },
-
-    {
-        "title": "Median (Range) to Mean (SD)",
-        "file": "median-range.html"
-    },
-       {
-        "title": "Multiple Groups Median (Range) to Mean (SD)",
-        "file": "multiple-median-range.html"
-    },
-
-    {
-        "title": "Median (Range, Max-Min) to Mean (SD)",
-        "file": "median-range-max-min.html"
-    },
- {
-        "title": "Multiple Groups Median (Range, Max-Min) to Mean (SD)",
-        "file": "multiple-range-max-min.html"
     }
 ]
