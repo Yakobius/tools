@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Groups Median (IQR) to Mean (SD) Converter - Ninib Yakoub</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- Load MathJax for rendering math -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+    <div class="container">
+        <h1>Multiple Groups Median (IQR) to Mean (SD) Converter</h1>
+        <p>
+            This tool uses formulas from Wan et al. (2014) and Hozo et al. (2005) for approximating means and standard deviations (SDs) from medians and interquartile ranges (IQRs).
+        </p>
+        <strong>References:</strong>
+        <ul>
+            <li>Wan, X., Wang, W., Liu, J., & Tong, T. (2014). Estimating the sample mean and standard deviation from the sample size, median, range and/or interquartile range. <i>BMC Medical Research Methodology</i>, 14(1), 135. <a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135" target="_blank">Read more</a></li>
+            <li>Hozo, S. P., Djulbegovic, B., & Hozo, I. (2005). Estimating the mean and variance from the median, range, and the size of a sample. <i>BMC Medical Research Methodology</i>, 5(1), 13. <a href="https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-5-13" target="_blank">Read more</a></li>
+        </ul>
+        <ul>
+            <li>Mean: \( \text{Mean} = \frac{Q_1 + Q_3 + \text{Median}}{3} \)</li>
+            <li>SD: \( \text{SD} = \frac{Q_3 - Q_1}{1.35} \)</li>
+        </ul>
+        <p>
+            <b>Combine Means and SDs Using a Weighted Average:</b>
+        </p>
+        <ul>
+            <li>
+                Combined Mean: 
+                \[
+                \text{Combined Mean} = \frac{\sum_{i=1}^k n_i \cdot \text{Mean}_i}{\sum_{i=1}^k n_i}
+                \]
+            </li>
+            <li>
+                Combined SD:
+                \[
+                \text{Combined SD} = \sqrt{\frac{\sum_{i=1}^k (n_i - 1) \cdot \text{SD}_i^2}{\sum_{i=1}^k n_i - k}}
+                \]
+            </li>
+        </ul>
+        
+        <!-- Group 1 -->
+        <div class="input-group">
+            <label for="median1">Median Group 1:</label>
+            <input type="number" id="median1" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="iqr1">IQR Group 1:</label>
+            <input type="number" id="iqr1" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="n1">Group Size 1:</label>
+            <input type="number" id="n1" step="1">
+        </div>
+
+        <!-- Group 2 -->
+        <div class="input-group">
+            <label for="median2">Median Group 2:</label>
+            <input type="number" id="median2" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="iqr2">IQR Group 2:</label>
+            <input type="number" id="iqr2" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="n2">Group Size 2:</label>
+            <input type="number" id="n2" step="1">
+        </div>
+
+        <!-- Group 3 (optional) -->
+        <div class="input-group">
+            <label for="median3">Median Group 3 (optional):</label>
+            <input type="number" id="median3" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="iqr3">IQR Group 3 (optional):</label>
+            <input type="number" id="iqr3" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="n3">Group Size 3 (optional):</label>
+            <input type="number" id="n3" step="1">
+        </div>
+
+        <!-- Group 4 (optional) -->
+        <div class="input-group">
+            <label for="median4">Median Group 4 (optional):</label>
+            <input type="number" id="median4" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="iqr4">IQR Group 4 (optional):</label>
+            <input type="number" id="iqr4" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="n4">Group Size 4 (optional):</label>
+            <input type="number" id="n4" step="1">
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+        <h2>Results</h2>
+        <p id="output"></p>
+    </div>
+    
+    <script>
+        // Fetch and insert the navigation bar
+        fetch('../nav.html')
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById('nav-placeholder').innerHTML = data;
+          });
+
+        function calculate() {
+            // Collect up to 4 groups' inputs
+            const groupInputs = [
+                {
+                    median: parseFloat(document.getElementById('median1').value),
+                    iqr: parseFloat(document.getElementById('iqr1').value),
+                    n: parseInt(document.getElementById('n1').value)
+                },
+                {
+                    median: parseFloat(document.getElementById('median2').value),
+                    iqr: parseFloat(document.getElementById('iqr2').value),
+                    n: parseInt(document.getElementById('n2').value)
+                },
+                {
+                    median: parseFloat(document.getElementById('median3').value),
+                    iqr: parseFloat(document.getElementById('iqr3').value),
+                    n: parseInt(document.getElementById('n3').value)
+                },
+                {
+                    median: parseFloat(document.getElementById('median4').value),
+                    iqr: parseFloat(document.getElementById('iqr4').value),
+                    n: parseInt(document.getElementById('n4').value)
+                }
+            ];
+
+            // Filter out invalid groups (NaN or zero n)
+            const validGroups = groupInputs.filter(g => {
+                return (
+                    !isNaN(g.median) &&
+                    !isNaN(g.iqr) &&
+                    !isNaN(g.n) &&
+                    g.n > 0
+                );
+            });
+
+            if (validGroups.length === 0) {
+                document.getElementById('output').innerHTML =
+                    'Please enter at least one valid group (median, IQR, and n).';
+                return;
+            }
+
+            // Calculate mean & SD for each valid group using the formulas
+            validGroups.forEach(group => {
+                const q1 = group.median - 0.5 * group.iqr;
+                const q3 = group.median + 0.5 * group.iqr;
+                group.mean = (q1 + q3 + group.median) / 3;
+                group.sd = (q3 - q1) / 1.35;
+            });
+
+            // Compute combined mean
+            const totalN = validGroups.reduce((sum, g) => sum + g.n, 0);
+            const combinedMean = validGroups.reduce((sum, g) => sum + g.n * g.mean, 0) / totalN;
+
+            // Compute pooled SD: sqrt( sum((n_i - 1)*sd_i^2) / (totalN - number of groups) )
+            const numerator = validGroups.reduce((sum, g) => sum + (g.n - 1) * Math.pow(g.sd, 2), 0);
+            const denominator = totalN - validGroups.length;
+            const combinedSD = validGroups.length > 1 ? Math.sqrt(numerator / denominator) : validGroups[0].sd;
+
+            // Construct output
+            let outputText = '';
+            validGroups.forEach((group, idx) => {
+                outputText += `<b>Group ${idx + 1}:</b> Mean = ${group.mean.toFixed(2)}, SD = ${group.sd.toFixed(2)}<br>`;
+            });
+            outputText += `<b>Combined:</b> Mean = ${combinedMean.toFixed(2)}, SD = ${combinedSD.toFixed(2)}`;
+            document.getElementById('output').innerHTML = outputText;
+        }
+    </script>
+</body>
+</html>
