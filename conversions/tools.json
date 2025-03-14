@@ -8,6 +8,10 @@
         "title": "Multiple Groups Median (IQR) to Mean (SD)",
         "file": "multiple-median-iqr.html"
     },
+      {
+        "title": "Multiple Groups Median (IQR, Q3-Q1) to Mean (SD)",
+        "file": "multiple-median-iqr-q3q1.html"
+    },
     {
         "title": "Median (Range) to Mean (SD)",
         "file": "median-range.html"
