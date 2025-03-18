@@ -3,6 +3,10 @@
         "title": "Median (IQR) to Mean (SD)",
         "file": "median-iqr.html"
     },
+    {
+        "title": "Confidence Interval (CI) to Standard Deviation (SD)",
+        "file": "CI_SD.html"
+    },
     
     {
         "title": "Multiple Groups Median (IQR) to Mean (SD)",
