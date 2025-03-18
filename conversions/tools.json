@@ -1,36 +1,42 @@
 [
     {
         "title": "Median (IQR) to Mean (SD)",
-        "file": "median-iqr.html"
+        "file": "median-iqr.html",
+        "description": "Convert Median and IQR to Mean and Standard Deviation."
     },
     {
         "title": "Confidence Interval (CI) to Standard Deviation (SD)",
-        "file": "CI_SD.html"
+        "file": "CI_SD.html",
+        "description": "Estimate SD from a given Confidence Interval."
     },
-    
     {
         "title": "Multiple Groups Median (IQR) to Mean (SD)",
-        "file": "multiple-median-iqr.html"
+        "file": "multiple-median-iqr.html",
+        "description": "Convert Median and IQR to Mean and SD for multiple groups."
     },
-      {
+    {
         "title": "Multiple Groups Median (IQR, Q3-Q1) to Mean (SD)",
-        "file": "multiple-median-iqr-q3q1.html"
+        "file": "multiple-median-iqr-q3q1.html",
+        "description": "Convert Median and interquartile range (Q3-Q1) to Mean and SD."
     },
     {
         "title": "Median (Range) to Mean (SD)",
-        "file": "median-range.html"
+        "file": "median-range.html",
+        "description": "Estimate Mean and SD from Median and Range."
     },
-       {
+    {
         "title": "Multiple Groups Median (Range) to Mean (SD)",
-        "file": "multiple-median-range.html"
+        "file": "multiple-median-range.html",
+        "description": "Convert Median and Range for multiple groups."
     },
-
     {
         "title": "Median (Range, Max-Min) to Mean (SD)",
-        "file": "median-range-max-min.html"
+        "file": "median-range-max-min.html",
+        "description": "Convert Median and Range (Max-Min) to Mean and SD."
     },
- {
+    {
         "title": "Multiple Groups Median (Range, Max-Min) to Mean (SD)",
-        "file": "multiple-range-max-min.html"
+        "file": "multiple-range-max-min.html",
+        "description": "Convert Median and Range (Max-Min) for multiple groups."
     }
 ]
